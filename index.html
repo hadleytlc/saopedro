@@ -305,6 +305,25 @@
 
     document.getElementById("image-box").style.backgroundImage =
       "url('logo.jpeg')"; // substitua com o nome da sua imagem local
+	  	  let typedNumber = "";
+
+document.addEventListener("keydown", (e) => {
+  if (/^[0-9]$/.test(e.key)) {
+    typedNumber += e.key;
+  } else if (e.key === "Enter") {
+    const num = parseInt(typedNumber);
+    if (!isNaN(num) && num >= 1 && num <= 75) {
+      const allCells = document.querySelectorAll(".bingo-column div");
+      const match = Array.from(allCells).find(el => parseInt(el.textContent) === num);
+      if (match) {
+        match.click();
+      }
+    }
+    // Sempre limpa a entrada ao apertar Enter
+    typedNumber = "";
+  }
+});
+
   </script>
 </body>
 </html>
