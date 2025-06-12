@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Telão Bingo</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: white;
+      height: 100%;
+      font-family: sans-serif;
+	  cursor: pointer;
+    }
+
+    .main-wrapper {
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      justify-content: center;
+	  cursor: pointer;
+      align-items: center;
+    }
+
+    .container {
+      display: flex;
+      height: 90vh;
+      align-items: center;
+	  cursor: pointer;
+      gap: 3vw;
+    }
+
+    .bingo-panel {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2vw;
+      padding: 1vh;
+      border: 6px solid #333;
+      border-radius: 10px;
+	  cursor: pointer;
+	  
+    }
+
+    .bingo-column {
+      display: grid;
+      grid-template-rows: 8% repeat(15, 1fr);
+      align-items: center;
+	  justify-items: center;
+      gap: 0.1vh;
+	  cursor: pointer;
+    } 
+
+    .bingo-column::before {
+      content: attr(id);
+      font-size: 5vw;
+      font-weight: bold;
+      font-family: 'Arial Black', Arial, sans-serif;
+    }
+
+    .bingo-column div {
+      width: 5vw;
+      height: 7vw;
+      height: calc(90vh / 16 - 0.5vh);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2vw;
+      font-family: 'Arial Black', Arial, sans-serif;
+      color: #aaa;
+      background-color: white;
+      border: 2px solid black;
+	  border-radius: 50%;
+      user-select: none;
+      cursor: pointer;
+      outline: none;
+      transition: all 0.9s ease;
+    }
+
+    .bingo-column div:focus {
+      outline: none;
+    }
+
+    .bingo-column div.active {
+      color: #000;
+      border: 6px solid red;
+    }
+
+    .bingo-column div.history {
+      color: #000;
+      border: 6px solid blue;
+    }
+
+    .info-panel {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+	  cursor: pointer;
+      align-items: center;
+      height: 95.5vh;
+    }
+
+    .info-box {
+      width: 35vw;
+      height: 45.5vh;
+      border: 6px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+	  cursor: pointer;
+      background: white;
+      border-radius: 10px;
+    }
+
+    .last-number {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      font-family: Arial, sans-serif;
+	  cursor: pointer;
+      height: 100%;
+      padding-top: 0vh;
+      gap: 0vh;
+    }
+
+    .last-letter {
+  font-size: 8vw;
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+}
+
+.last-num {
+  font-size: 14vw;
+  font-family: Arial Black, sans-serif;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+}
+
+
+    .image-box {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+	  cursor: pointer;
+      border-radius: 10px;
+    }
+
+    .image-buttons {
+      position: absolute;
+      bottom: 45.8vh;
+      left: 50%;
+      transform: translateX(-50%);
+	  cursor: pointer;
+      display: flex;
+      gap: 1vw;
+    }
+
+    .image-buttons button {
+      font-size: 0.9vw;
+      padding: 0.3vw 0.8vw;
+      background: #eee;
+      border: 1px solid #aaa;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .image-buttons button:hover {
+      background: #ddd;
+	  cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="main-wrapper">
+    <div class="container">
+      <div class="bingo-panel">
+        <div class="bingo-column" id="B"></div>
+        <div class="bingo-column" id="I"></div>
+        <div class="bingo-column" id="N"></div>
+        <div class="bingo-column" id="G"></div>
+        <div class="bingo-column" id="O"></div>
+      </div>
+      <div class="info-panel">
+        <div class="info-box">
+          <div class="last-number">
+            <div class="last-letter" id="last-letter">B</div>
+            <div class="last-num" id="last-num">--</div>
+          </div>
+        </div>
+        <div class="info-box">
+          <div class="image-box" id="image-box">
+            <div class="image-buttons">
+              <button id="undo-btn">Voltar</button>
+              <button id="reset-btn">Resetar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const columns = {
+      B: [1, 15],
+      I: [16, 30],
+      N: [31, 45],
+      G: [46, 60],
+      O: [61, 75],
+    };
+
+    const lastLetter = document.getElementById("last-letter");
+    const lastNum = document.getElementById("last-num");
+    const history = [];
+
+    for (let letter in columns) {
+      const col = document.getElementById(letter);
+      const [start, end] = columns[letter];
+      for (let i = start; i <= end; i++) {
+        const cell = document.createElement("div");
+        cell.textContent = i;
+        cell.dataset.letter = letter;
+        cell.dataset.value = i;
+
+        cell.addEventListener("click", () => {
+          document.querySelectorAll(".bingo-column div").forEach(c => c.classList.remove("active"));
+
+          if (!history.includes(cell)) history.push(cell);
+
+          cell.classList.remove("history");
+          cell.classList.add("active");
+          cell.style.color = "#000";
+
+          history.forEach(c => {
+            if (c !== cell) {
+              c.classList.remove("active");
+              c.classList.add("history");
+              c.style.color = "#000";
+            }
+          });
+
+          lastLetter.textContent = letter;
+          lastNum.textContent = i;
+        });
+
+        col.appendChild(cell);
+      }
+    }
+
+    document.getElementById("undo-btn").addEventListener("click", () => {
+      if (history.length > 0) {
+        const last = history.pop();
+        last.classList.remove("active", "history");
+        last.style.color = "#aaa";
+
+        const prev = history.at(-1);
+        if (prev) {
+          prev.classList.remove("history");
+          prev.classList.add("active");
+          prev.style.color = "#000";
+          lastLetter.textContent = prev.dataset.letter;
+          lastNum.textContent = prev.dataset.value;
+        } else {
+          lastLetter.textContent = "--";
+          lastNum.textContent = "--";
+        }
+      }
+    });
+
+    document.getElementById("reset-btn").addEventListener("click", () => {
+      document.querySelectorAll(".bingo-column div").forEach(c => {
+        c.classList.remove("active", "history");
+        c.style.color = "#aaa";
+      });
+      lastLetter.textContent = "--";
+      lastNum.textContent = "--";
+      history.length = 0;
+    });
+
+    document.getElementById("image-box").style.backgroundImage =
+      "url('img/logo.jpeg')"; // substitua com o nome da sua imagem local
+  </script>
+</body>
+</html>
