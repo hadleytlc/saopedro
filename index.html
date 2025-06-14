@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -22,6 +23,7 @@
       width: 100vw;
       display: flex;
       justify-content: center;
+	  color: blue;
       user-select: none;
       cursor: pointer;
       align-items: center;
@@ -33,14 +35,14 @@
       align-items: center;
 	  user-select: none;
       cursor: pointer;
-      gap: 4vw;
+      gap: 5vw;
     }
 
     .bingo-panel {
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 2vw;
+      gap: 3vw;
       padding: 1vh;
       border: 6px solid #333;
       border-radius: 10px;
@@ -67,12 +69,12 @@
 
     .bingo-column div {
       width: 5vw;
-      height: 7vw;
+      height: 5vw;
       height: calc(90vh / 16 - 0.5vh);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 2vw;
+      font-size: 2.5vw;
       font-family: 'Arial Black', Arial, sans-serif;
       color: #aaa;
       background-color: white;
@@ -101,11 +103,12 @@
     .info-panel {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: space-between ;
       user-select: none;
       cursor: pointer;
       align-items: center;
       height: 93.5vh;
+	  
     }
 
     .info-box {
@@ -127,6 +130,7 @@
       align-items: center;
       justify-content: flex-start;
       font-family: Arial, sans-serif;
+	  color: black;
       user-select: none;
       cursor: pointer;
       height: 100%;
@@ -160,12 +164,13 @@
       width: 100%;
       height: 100%;
       position: relative;
-      background-size: contain;
+      background-size: 100% 100%;
       background-repeat: no-repeat;
       background-position: center;
       user-select: none;
       cursor: pointer;
-      border-radius: 10px;
+      border-radius: 1px;
+	  
     }
 
     .image-buttons {
@@ -228,7 +233,7 @@
 
   <script>
     const columns = {
-      B: [1, 15],
+      B: [01, 15],
       I: [16, 30],
       N: [31, 45],
       G: [46, 60],
@@ -283,7 +288,7 @@
         if (prev) {
           prev.classList.remove("history");
           prev.classList.add("active");
-          prev.style.color = "#000";
+          prev.style.color = "blue";
           lastLetter.textContent = prev.dataset.letter;
           lastNum.textContent = prev.dataset.value;
         } else {
