@@ -1,10 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <title>Telão Bingo</title>
   <style>
+    /* (estilos exatamente como você mandou — sem alterações) */
     * {
       box-sizing: border-box;
     }
@@ -14,8 +14,8 @@
       padding: 0;
       background: white;
       height: 100%;
-      font-family: sans-serif;
-	  cursor: pointer;
+      font-family: 'Segoe UI Black', Impact, sans-serif;
+      cursor: pointer;
     }
 
     .main-wrapper {
@@ -23,9 +23,8 @@
       width: 100vw;
       display: flex;
       justify-content: center;
-	  color: blue;
+      color: blue;
       user-select: none;
-      cursor: pointer;
       align-items: center;
     }
 
@@ -33,8 +32,6 @@
       display: flex;
       height: 90vh;
       align-items: center;
-	  user-select: none;
-      cursor: pointer;
       gap: 5vw;
     }
 
@@ -44,121 +41,90 @@
       align-items: center;
       gap: 3vw;
       padding: 1vh;
-      border: 6px solid #333;
+      border: 6px solid blue;
       border-radius: 10px;
-      user-select: none;
-      cursor: pointer;
-	  
     }
 
     .bingo-column {
       display: grid;
       grid-template-rows: 8% repeat(15, 1fr);
       align-items: center;
-	  justify-items: center;
-      gap: 0.1vh;
-	  cursor: pointer;
-    } 
+      justify-items: center;
+    }
 
     .bingo-column::before {
       content: attr(id);
       font-size: 5vw;
       font-weight: bold;
-      font-family: 'Arial Black', Arial, sans-serif;
     }
 
     .bingo-column div {
-      width: 5vw;
-      height: 5vw;
-      height: calc(90vh / 16 - 0.5vh);
+      width: 5.5vw;
+      height: calc(83vh / 16);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 2.5vw;
-      font-family: 'Arial Black', Arial, sans-serif;
+      font-size: 2.9vw;
+      font-weight: bold;
       color: #aaa;
       background-color: white;
-      border: 2px solid black;
-	  border-radius: 50%;
-      user-select: none;
-      cursor: pointer;
-      outline: none;
-      transition: all 0.9s ease;
-    }
-
-    .bingo-column div:focus {
-      outline: none;
+      border: 2px solid blue;
+      border-radius: 0;
+      transition: all 0.3s ease;
     }
 
     .bingo-column div.active {
-      color: #000;
-      border: 6px solid red;
+      background-color: red;
+      color: white;
     }
 
     .bingo-column div.history {
-      color: #000;
-      border: 6px solid blue;
+      background-color: yellow;
+      color: blue;
+      border: 2.5px solid blue;
     }
 
     .info-panel {
       display: flex;
       flex-direction: column;
-      justify-content: space-between ;
-      user-select: none;
-      cursor: pointer;
+      justify-content: space-between;
       align-items: center;
       height: 93.5vh;
-	  
     }
 
     .info-box {
       width: 40vw;
       height: 45.5vh;
-      border: 6px solid #333;
+      border: 6px solid blue;
       display: flex;
       align-items: center;
       justify-content: center;
-      user-select: none;
-      cursor: pointer;
       background: white;
       border-radius: 10px;
+      position: relative;
     }
 
     .last-number {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      font-family: Arial, sans-serif;
-	  color: black;
-      user-select: none;
-      cursor: pointer;
+      color: blue;
       height: 100%;
       padding-top: 0vh;
       gap: 0vh;
     }
 
     .last-letter {
-  font-size: 8vw;
-  font-weight: bold;
-  font-family: Arial, sans-serif;
-  user-select: none;
-  cursor: pointer;
-  margin: 0;
-  padding: 0;
-  line-height: 84%;
-}
+      font-size: 8vw;
+      font-weight: bold;
+      line-height: 84%;
+    }
 
-.last-num {
-  font-size: 20vw;
-  font-family: Arial Black, sans-serif;
-  user-select: none;
-  cursor: pointer;
-  margin: 0;
-  padding: 0;
-  line-height: 67%;
-}
-
+    .last-num {
+      font-size: 20vw;
+      font-weight: bold;
+      line-height: 67%;
+    }
 
     .image-box {
       width: 100%;
@@ -167,10 +133,6 @@
       background-size: 100% 100%;
       background-repeat: no-repeat;
       background-position: center;
-      user-select: none;
-      cursor: pointer;
-      border-radius: 1px;
-	  
     }
 
     .image-buttons {
@@ -178,27 +140,22 @@
       bottom: 101%;
       left: 50%;
       transform: translateX(-50%);
-      user-select: none;
-      cursor: pointer;
       display: flex;
       gap: 1vw;
     }
 
     .image-buttons button {
-      font-size: 0.9vw;
-      padding: 0.3vw 0.8vw;
+      font-size: 1vw;
+      padding: 0.4vw 1vw;
       background: #eee;
       border: 1px solid #aaa;
       border-radius: 4px;
-      user-select: none;
       cursor: pointer;
       transition: background 0.2s;
     }
 
     .image-buttons button:hover {
       background: #ddd;
-      user-select: none;
-      cursor: pointer;
     }
   </style>
 </head>
@@ -215,14 +172,13 @@
       <div class="info-panel">
         <div class="info-box">
           <div class="last-number">
-            <div class="last-letter" id="last-letter">B</div>
+            <div class="last-letter" id="last-letter">--</div>
             <div class="last-num" id="last-num">--</div>
           </div>
         </div>
         <div class="info-box">
           <div class="image-box" id="image-box">
             <div class="image-buttons">
-              <button id="undo-btn">Voltar</button>
               <button id="reset-btn">Resetar</button>
             </div>
           </div>
@@ -233,7 +189,7 @@
 
   <script>
     const columns = {
-      B: [01, 15],
+      B: [1, 15],
       I: [16, 30],
       N: [31, 45],
       G: [46, 60],
@@ -242,92 +198,87 @@
 
     const lastLetter = document.getElementById("last-letter");
     const lastNum = document.getElementById("last-num");
-    const history = [];
 
     for (let letter in columns) {
       const col = document.getElementById(letter);
       const [start, end] = columns[letter];
+
       for (let i = start; i <= end; i++) {
         const cell = document.createElement("div");
-        cell.textContent = i;
+        const formattedNum = i.toString().padStart(2, "0");
+        cell.textContent = formattedNum;
         cell.dataset.letter = letter;
-        cell.dataset.value = i;
+        cell.dataset.value = formattedNum;
 
         cell.addEventListener("click", () => {
-          document.querySelectorAll(".bingo-column div").forEach(c => c.classList.remove("active"));
+          if (cell.classList.contains("active") || cell.classList.contains("history")) {
+            const confirmUnmark = confirm(`Deseja desmarcar o número ${letter}${formattedNum}?`);
+            if (confirmUnmark) {
+              cell.classList.remove("active", "history");
+              cell.style.backgroundColor = "white";
+              cell.style.color = "#aaa";
 
-          if (!history.includes(cell)) history.push(cell);
+              if (lastLetter.textContent === letter && lastNum.textContent === formattedNum) {
+                lastLetter.textContent = "--";
+                lastNum.textContent = "--";
+              }
 
-          cell.classList.remove("history");
-          cell.classList.add("active");
-          cell.style.color = "#000";
+              return;
+            } else {
+              return;
+            }
+          }
 
-          history.forEach(c => {
-            if (c !== cell) {
+          // Marca novo número e move os outros para histórico
+          document.querySelectorAll(".bingo-column div").forEach(c => {
+            if (c.classList.contains("active")) {
               c.classList.remove("active");
               c.classList.add("history");
-              c.style.color = "#000";
             }
           });
 
+          cell.classList.add("active");
+          cell.style.backgroundColor = "";
+          cell.style.color = "";
           lastLetter.textContent = letter;
-          lastNum.textContent = i;
+          lastNum.textContent = formattedNum;
         });
 
         col.appendChild(cell);
       }
     }
 
-    document.getElementById("undo-btn").addEventListener("click", () => {
-      if (history.length > 0) {
-        const last = history.pop();
-        last.classList.remove("active", "history");
-        last.style.color = "#aaa";
-
-        const prev = history.at(-1);
-        if (prev) {
-          prev.classList.remove("history");
-          prev.classList.add("active");
-          prev.style.color = "blue";
-          lastLetter.textContent = prev.dataset.letter;
-          lastNum.textContent = prev.dataset.value;
-        } else {
-          lastLetter.textContent = "--";
-          lastNum.textContent = "--";
-        }
-      }
-    });
-
+    // Botão Reset
     document.getElementById("reset-btn").addEventListener("click", () => {
       document.querySelectorAll(".bingo-column div").forEach(c => {
         c.classList.remove("active", "history");
+        c.style.backgroundColor = "white";
         c.style.color = "#aaa";
       });
       lastLetter.textContent = "--";
       lastNum.textContent = "--";
-      history.length = 0;
     });
 
-    document.getElementById("image-box").style.backgroundImage =
-      "url('logo.jpeg')"; // substitua com o nome da sua imagem local
-	  	  let typedNumber = "";
+    // Imagem de fundo padrão
+    document.getElementById("image-box").style.backgroundImage = "url('logo.jpeg')";
 
-document.addEventListener("keydown", (e) => {
-  if (/^[0-9]$/.test(e.key)) {
-    typedNumber += e.key;
-  } else if (e.key === "Enter") {
-    const num = parseInt(typedNumber);
-    if (!isNaN(num) && num >= 1 && num <= 75) {
-      const allCells = document.querySelectorAll(".bingo-column div");
-      const match = Array.from(allCells).find(el => parseInt(el.textContent) === num);
-      if (match) {
-        match.click();
+    // Teclado
+    let typedNumber = "";
+    document.addEventListener("keydown", (e) => {
+      if (/^[0-9]$/.test(e.key)) {
+        typedNumber += e.key;
+      } else if (e.key === "Enter") {
+        const num = parseInt(typedNumber);
+        if (!isNaN(num) && num >= 1 && num <= 75) {
+          const allCells = document.querySelectorAll(".bingo-column div");
+          const match = Array.from(allCells).find(el => parseInt(el.textContent) === num);
+          if (match) {
+            match.click();
+          }
+        }
+        typedNumber = "";
       }
-    }
-    // Sempre limpa a entrada ao apertar Enter
-    typedNumber = "";
-  }
-	});
+    });
   </script>
 </body>
 </html>
