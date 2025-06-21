@@ -65,7 +65,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 3.3vw;
+      font-size: min(5.8vw, 5.8vh);
+	  transform: translateY(4.5px);
       font-weight: bold;
       color: #aaa;
       background-color: white;
@@ -115,13 +116,13 @@
     }
 
     .last-letter {
-      font-size: 8vw;
+      font-size: min(12.5vw, 12.5vh);
       font-weight: bold;
       line-height: 84%;
     }
 
     .last-num {
-      font-size: 23vw;
+      font-size: min(43vw, 43vh);
       font-weight: bold;
       line-height: 67%;
     }
@@ -157,6 +158,10 @@
     .image-buttons button:hover {
       background: #ddd;
     }
+	.cell-num {
+  display: inline-block;
+  transform: translateY(-2.2px); /* sobe só o número */
+  }
   </style>
 </head>
 <body>
@@ -206,7 +211,7 @@
       for (let i = start; i <= end; i++) {
         const cell = document.createElement("div");
         const formattedNum = i.toString().padStart(2, "0");
-        cell.textContent = formattedNum;
+        cell.innerHTML = `<span class="cell-num">${formattedNum}</span>`;
         cell.dataset.letter = letter;
         cell.dataset.value = formattedNum;
 
