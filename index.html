@@ -12,7 +12,7 @@
     html, body {
       margin: 0;
       padding: 0;
-      background: whith;
+      background: white;
       height: 100%;
       font-family: 'Segoe UI Black', Impact, sans-serif;
       cursor: pointer;
@@ -59,7 +59,7 @@
       font-weight: bold;
     }
 
-.bingo-column div {
+    .bingo-column div {
       width: 5.5vw;
       height: calc(83vh / 16);
       display: flex;
@@ -80,7 +80,7 @@
       color: white;
       border: 1px solid blue;
 	  font-size: min(6vw, 6vh);
-	  font-family: 'Segoe UI', Impact, sans-serif;
+	  font-family: 'Segoe UI Black', Impact, sans-serif;
     }
 
     .bingo-column div.history {
@@ -153,7 +153,7 @@
       font-size: 1vw;
       padding: 0.4vw 1vw;
       background: #eee;
-      border: 1px solid #aaa;
+      border: 1px solid #DCDCDC;
       border-radius: 4px;
       cursor: pointer;
       transition: background 0.2s;
@@ -162,13 +162,16 @@
     .image-buttons button:hover {
       background: #ddd;
     }
-	.cell-num {
-  display: inline-block;
-  transform: translateY(-2.2px); /* sobe só o número */
-  }
+
+    .cell-num {
+      display: inline-block;
+      transform: translateY(-2.5px);
+    }
   </style>
 </head>
-<body>
+
+<!-- BLOQUEIO DO BOTÃO DIREITO -->
+<body oncontextmenu="return false;">
   <div class="main-wrapper">
     <div class="container">
       <div class="bingo-panel">
@@ -225,20 +228,18 @@
             if (confirmUnmark) {
               cell.classList.remove("active", "history");
               cell.style.backgroundColor = "white";
-              cell.style.color = "#aaa";
+              cell.style.color = "#DCDCDC";
 
               if (lastLetter.textContent === letter && lastNum.textContent === formattedNum) {
                 lastLetter.textContent = "--";
                 lastNum.textContent = "--";
               }
-
               return;
             } else {
               return;
             }
           }
 
-          // Marca novo número e move os outros para histórico
           document.querySelectorAll(".bingo-column div").forEach(c => {
             if (c.classList.contains("active")) {
               c.classList.remove("active");
@@ -257,21 +258,18 @@
       }
     }
 
-    // Botão Reset
     document.getElementById("reset-btn").addEventListener("click", () => {
       document.querySelectorAll(".bingo-column div").forEach(c => {
         c.classList.remove("active", "history");
         c.style.backgroundColor = "white";
-        c.style.color = "#aaa";
+        c.style.color = "#DCDCDC";
       });
       lastLetter.textContent = "--";
       lastNum.textContent = "--";
     });
 
-    // Imagem de fundo padrão
     document.getElementById("image-box").style.backgroundImage = "url('logo.jpeg')";
 
-    // Teclado
     let typedNumber = "";
     document.addEventListener("keydown", (e) => {
       if (/^[0-9]$/.test(e.key)) {
@@ -288,6 +286,31 @@
         typedNumber = "";
       }
     });
+
+    // BLOQUEIO DE TECLAS DEVTOOLS
+    document.addEventListener("keydown", function (e) {
+      if (
+        e.key === "F12" ||
+        (e.ctrlKey && e.shiftKey && e.key === "I") ||
+        (e.ctrlKey && e.shiftKey && e.key === "J") ||
+        (e.ctrlKey && e.key === "U") ||
+        (e.ctrlKey && e.shiftKey && e.key === "C")
+      ) {
+        e.preventDefault();
+        alert("Acesso bloqueado.");
+      }
+    });
+
+    // DETECÇÃO SIMPLES DE DEVTOOLS
+    setInterval(function () {
+      const start = performance.now();
+      debugger;
+      const end = performance.now();
+      if (end - start > 50) {
+        alert("Uso de ferramentas de desenvolvedor detectado!");
+        window.location.href = "about:blank";
+      }
+    }, 1000);
   </script>
 </body>
 </html>
